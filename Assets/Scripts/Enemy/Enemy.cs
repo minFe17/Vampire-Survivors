@@ -3,6 +3,7 @@ using Utils;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] EEnemyType _enemyType;
     [SerializeField] int _maxHp;
     [SerializeField] int _damage;
     [SerializeField] float _speed;
@@ -53,7 +54,7 @@ public class Enemy : MonoBehaviour
     void Die()
     {
         SimpleSingleton<EnemyManager>.Instance.KillEnemy(this);
-        Destroy(this.gameObject);
+        MonoSingleton<ObjectPoolManager>.Instance.Pull(_enemyType, this.gameObject);
         SimpleSingleton<ExpManager>.Instance.CreateExp(transform.position);
     }
 

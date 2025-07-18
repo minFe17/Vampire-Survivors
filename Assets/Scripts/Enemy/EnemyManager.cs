@@ -24,7 +24,8 @@ public class EnemyManager : IMediatorEvent
         int randomSpawnCount = Random.Range(_minCount, _maxCount);
         for (int i = 0; i < randomSpawnCount; i++)
         {
-            GameObject temp = Object.Instantiate(SimpleSingleton<PrefabManager>.Instance.GetPrefabLoad(EPrefabType.Enemy).GetPrefab());
+            int randomEnemyType = Random.Range(0, (int)EEnemyType.Max);
+            GameObject temp = MonoSingleton<ObjectPoolManager>.Instance.Push((EEnemyType)randomEnemyType);
             temp.transform.position = _spawnPosition[randomPosIndex].position;
             _currentEnemy.Add(temp);
         }

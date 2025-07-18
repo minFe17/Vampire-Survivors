@@ -14,7 +14,7 @@ public class ExpManager
     public void CreateExp(Vector3 pos)
     {
         int randomExp = Random.Range(0, (int)EExpType.Max);
-        GameObject temp = Object.Instantiate(SimpleSingleton<PrefabManager>.Instance.GetPrefabLoad(EPrefabType.Exp).GetPrefab((EExpType)randomExp));
+        GameObject temp = MonoSingleton<ObjectPoolManager>.Instance.Push((EExpType)randomExp);
         temp.transform.position = pos;
         _currentExpList.Add(temp.GetComponent<Exp>());
     }

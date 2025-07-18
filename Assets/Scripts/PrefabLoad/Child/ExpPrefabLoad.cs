@@ -29,5 +29,4 @@ public class ExpPrefabLoad : PrefabLoadBase
         EExpType key = (EExpType)(object)type;
         return _expPrefabDict[key];
     }
-
 }

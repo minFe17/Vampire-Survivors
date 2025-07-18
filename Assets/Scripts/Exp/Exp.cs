@@ -3,6 +3,7 @@ using Utils;
 
 public class Exp : MonoBehaviour
 {
+    [SerializeField] EExpType _expType;
     [SerializeField] int _expAmount;
 
     float _speed = 3f;
@@ -32,7 +33,7 @@ public class Exp : MonoBehaviour
     void GetExp()
     {
         SimpleSingleton<ExpManager>.Instance.AddExp(this);
-        Destroy(gameObject);
+        MonoSingleton<ObjectPoolManager>.Instance.Pull(_expType, gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
