@@ -27,4 +27,13 @@ public class PrefabManager
     {
         return _prefabDict[key];
     }
+
+    public bool CheckPrefab()
+    {
+        if (_prefabDict == null)
+            return false;
+        if (_prefabDict.Count != 0)
+            return true;
+        return false;
+    }
 }

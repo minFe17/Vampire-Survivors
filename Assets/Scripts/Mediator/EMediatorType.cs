@@ -5,5 +5,6 @@ public enum EMediatorType
     TimeTick,
     KillEnemy,
     GetExp,
+    GameEnd,
     Max
 }

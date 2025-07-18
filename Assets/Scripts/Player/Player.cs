@@ -61,7 +61,7 @@ public class Player : MonoBehaviour
 
     void Die()
     {
-
+        SimpleSingleton<MediatorManager>.Instance.Notify(EMediatorType.GameEnd, "FAIL...");
     }
 
     public void TakeDamage(int damage)
