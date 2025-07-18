@@ -12,6 +12,7 @@ public class PrefabManager
         {
             {EPrefabType.Enemy, new EnemyPrefabLoad()},
             {EPrefabType.Bullet, new BulletPrefabLoad()},
+            {EPrefabType.Exp, new ExpPrefabLoad()},
         };
     }
     

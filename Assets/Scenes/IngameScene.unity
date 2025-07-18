@@ -301,8 +301,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -755914273
-  m_SortingLayer: 1
+  m_SortingLayerID: -945545117
+  m_SortingLayer: 2
   m_SortingOrder: 1
   m_Sprite: {fileID: 978012912, guid: 99a24620d31e5ce4e823c32d11e17c2c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -859,7 +859,7 @@ GameObject:
   - component: {fileID: 866469495}
   - component: {fileID: 866469494}
   m_Layer: 5
-  m_Name: Exp
+  m_Name: Exp Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -21785,6 +21785,7 @@ GameObject:
   - component: {fileID: 1783876755}
   - component: {fileID: 1783876757}
   - component: {fileID: 1783876756}
+  - component: {fileID: 1783876758}
   m_Layer: 5
   m_Name: ExpPanel
   m_TagString: Untagged
@@ -21851,6 +21852,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1783876754}
   m_CullTransparentMesh: 1
+--- !u!114 &1783876758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1783876754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c352bdcc84c11304abf395bc67328f67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _expText: {fileID: 172255749}
+  _expImage: {fileID: 866469494}
 --- !u!1 &1842294388
 GameObject:
   m_ObjectHideFlags: 0

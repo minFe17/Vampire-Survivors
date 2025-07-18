@@ -4,5 +4,6 @@ public enum EMediatorType
     TakeDamagePlayer,
     TimeTick,
     KillEnemy,
+    GetExp,
     Max
 }
