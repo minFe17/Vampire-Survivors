@@ -10,7 +10,8 @@ public class PrefabManager
     {
         _prefabDict = new Dictionary<EPrefabType, PrefabLoadBase>
         {
-            {EPrefabType.Enemy, new EnemyPrefabLoad()}
+            {EPrefabType.Enemy, new EnemyPrefabLoad()},
+            {EPrefabType.Bullet, new BulletPrefabLoad()},
         };
     }
     

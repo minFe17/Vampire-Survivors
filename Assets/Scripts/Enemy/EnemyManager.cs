@@ -10,6 +10,8 @@ public class EnemyManager : IMediatorEvent
 
     int _minCount = 2;
     int _maxCount = 5;
+    int _killEnemyCount;
+
     public void Init(List<Transform> spawnPosition)
     {
         SimpleSingleton<MediatorManager>.Instance.Register(EMediatorType.SpawnEnemy, this);
@@ -43,6 +45,13 @@ public class EnemyManager : IMediatorEvent
             }
         }
         return closestEnemy;
+    }
+
+    public void KillEnemy(Enemy enemy)
+    {
+        _killEnemyCount++;
+        _currentEnemy.Remove(enemy.gameObject);
+        SimpleSingleton<MediatorManager>.Instance.Notify(EMediatorType.KillEnemy, _killEnemyCount);
     }
 
     public void HandleEvent(object data = null)

@@ -3,12 +3,15 @@ using Utils;
 
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] int _maxHp;
     [SerializeField] int _damage;
     [SerializeField] float _speed;
+
     Player _target;
     Animator _animator;
     SpriteRenderer _spriteRenderer;
 
+    int _currentHp;
     float _hitTimer;
     bool _hitPlayer;
 
@@ -45,6 +48,19 @@ public class Enemy : MonoBehaviour
             _target.TakeDamage(_damage);
             _hitTimer = 0f;
         }
+    }
+
+    void Die()
+    {
+        SimpleSingleton<EnemyManager>.Instance.KillEnemy(this);
+        Destroy(this.gameObject);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        _currentHp -= damage;
+        if (_currentHp <= 0)
+            Die();
     }
 
     void OnCollisionEnter2D(Collision2D collision)

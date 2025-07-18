@@ -49,7 +49,14 @@ public class Player : MonoBehaviour
 
     void Attack(Transform target)
     {
-        
+        GameObject bullet = SimpleSingleton<PrefabManager>.Instance.GetPrefabLoad(EPrefabType.Bullet).GetPrefab();
+        GameObject temp = Instantiate(bullet);
+
+        temp.transform.position = transform.position;
+
+        Vector3 direction = (target.position - temp.transform.position).normalized;
+
+        temp.transform.rotation = Quaternion.FromToRotation(Vector3.up, direction);
     }
 
     void Die()

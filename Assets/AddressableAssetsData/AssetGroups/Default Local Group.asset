@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 8bbb75c5a3971da40b64e58df04e72a2
   m_SerializeEntries:
+  - m_GUID: 30e59608ad2d7984eab23c9b6c4321fb
+    m_Address: Bullet
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4a1868f3a4b20ad488fdea4cc701d147
     m_Address: ZombieA
     m_ReadOnly: 0
