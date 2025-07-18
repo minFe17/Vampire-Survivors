@@ -1,17 +1,38 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Utils;
 
-public class ExpManager : MonoBehaviour
+public class ExpManager
 {
     // 싱글턴
+    List<Exp> _currentExpList = new List<Exp>();
     int _exp;
-    int _needExp = 100; // 데이터 입출력??
+    int _needExp = 100;
 
     public int NeedExp { get => _needExp; }
 
-    public void AddExp(int exp)
+    public void CreateExp(Vector3 pos)
     {
-        _exp += exp;
+        int randomExp = Random.Range(0, (int)EExpType.Max);
+        GameObject temp = Object.Instantiate(SimpleSingleton<PrefabManager>.Instance.GetPrefabLoad(EPrefabType.Exp).GetPrefab((EExpType)randomExp));
+        temp.transform.position = pos;
+        _currentExpList.Add(temp.GetComponent<Exp>());
+    }
+
+    public void AddExp(Exp exp)
+    {
+        _exp += exp.ExpAmount;
+        SimpleSingleton<MediatorManager>.Instance.Notify(EMediatorType.GetExp, _exp);
+
+        if(_exp >= _needExp)
+            LevelUp();
+        _currentExpList.Remove(exp);
+    }
+
+    public void LevelUp()
+    {
+        _exp -= _needExp;
+        _needExp = _needExp * 2;
         SimpleSingleton<MediatorManager>.Instance.Notify(EMediatorType.GetExp, _exp);
     }
 }

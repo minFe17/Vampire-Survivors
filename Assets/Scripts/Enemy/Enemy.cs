@@ -54,9 +54,7 @@ public class Enemy : MonoBehaviour
     {
         SimpleSingleton<EnemyManager>.Instance.KillEnemy(this);
         Destroy(this.gameObject);
-        int randomExp = Random.Range(0, (int)EExpType.Max);
-        GameObject temp = Instantiate(SimpleSingleton<PrefabManager>.Instance.GetPrefabLoad(EPrefabType.Exp).GetPrefab((EExpType)randomExp));
-        temp.transform.position = transform.position;
+        SimpleSingleton<ExpManager>.Instance.CreateExp(transform.position);
     }
 
     public void TakeDamage(int damage)

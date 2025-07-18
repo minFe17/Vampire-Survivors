@@ -8,6 +8,8 @@ public class Exp : MonoBehaviour
     float _speed = 3f;
     float _targetDistance = 3f;
 
+    public int ExpAmount { get => _expAmount; }
+
     void Update()
     {
         CheckDistance();    
@@ -29,7 +31,7 @@ public class Exp : MonoBehaviour
 
     void GetExp()
     {
-        SimpleSingleton<ExpManager>.Instance.AddExp(_expAmount);
+        SimpleSingleton<ExpManager>.Instance.AddExp(this);
         Destroy(gameObject);
     }
 
