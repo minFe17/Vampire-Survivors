@@ -1,26 +1,31 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Utils;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] int _maxHp;
     [SerializeField] float _speed;
 
     SpriteRenderer _spriteRenderer;
     Animator _animator;
-    Rigidbody2D _rigidbody;
     Vector2 _movePos;
+
+    int _currentHp;
 
     public Vector2 MovePos { get => _movePos; }
 
     #region Unity LifeCycle
-    void Awake()
+    void Start()
     {
+        _currentHp = _maxHp;
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
-        _rigidbody = GetComponent<Rigidbody2D>();
 
         SimpleSingleton<GameManager>.Instance.Player = this;
+        StartCoroutine(AttackRoutine());
     }
 
     void FixedUpdate()
@@ -31,7 +36,7 @@ public class Player : MonoBehaviour
 
     void Move()
     {
-        _rigidbody.linearVelocity = _movePos * _speed;
+        transform.Translate(_movePos.normalized * _speed * Time.deltaTime);
     }
 
     void Turn()
@@ -39,7 +44,25 @@ public class Player : MonoBehaviour
         if (_movePos.x < 0)
             _spriteRenderer.flipX = true;
         else
-            _spriteRenderer.flipX = false;  
+            _spriteRenderer.flipX = false;
+    }
+
+    void Attack(Transform target)
+    {
+        
+    }
+
+    void Die()
+    {
+
+    }
+
+    public void TakeDamage(int damage)
+    {
+        _currentHp -= damage;
+        SimpleSingleton<MediatorManager>.Instance.Notify(EMediatorType.TakeDamagePlayer, (float)_currentHp / _maxHp);
+        if (_currentHp <= 0)
+            Die();
     }
 
     #region Unity InputSystem
@@ -52,6 +75,19 @@ public class Player : MonoBehaviour
 
         if (Mathf.Abs(_movePos.x) > 0.01f)
             Turn();
+    }
+    #endregion
+
+    #region Coroutine
+    IEnumerator AttackRoutine()
+    {
+        while (true)
+        {
+            Transform target = SimpleSingleton<EnemyManager>.Instance.GetClosestEnemy(transform.position);
+            if (target != null)
+                Attack(target);
+            yield return new WaitForSeconds(0.5f);
+        }
     }
     #endregion
 }
