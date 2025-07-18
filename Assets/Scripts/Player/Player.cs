@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     public Vector2 MovePos { get => _movePos; }
 
     #region Unity LifeCycle
-    void Start()
+    void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
