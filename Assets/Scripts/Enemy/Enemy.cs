@@ -9,18 +9,25 @@ public class Enemy : MonoBehaviour
     [SerializeField] float _speed;
 
     Player _target;
-    Animator _animator;
     SpriteRenderer _spriteRenderer;
 
     int _currentHp;
     float _hitTimer;
     bool _hitPlayer;
 
+    public EEnemyType EnemyType { get => _enemyType; }
+
     void Start()
     {
-        _target = SimpleSingleton<GameManager>.Instance.Player;
-        _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    void OnEnable()
+    {
+        _currentHp = _maxHp;
+        if(_target == null)
+            _target = SimpleSingleton<GameManager>.Instance.Player;
+
     }
 
     void Update()
@@ -54,7 +61,7 @@ public class Enemy : MonoBehaviour
     void Die()
     {
         SimpleSingleton<EnemyManager>.Instance.KillEnemy(this);
-        MonoSingleton<ObjectPoolManager>.Instance.Pull(_enemyType, this.gameObject);
+        MonoSingleton<ObjectPoolManager>.Instance.Push(_enemyType, this.gameObject);
         SimpleSingleton<ExpManager>.Instance.CreateExp(transform.position);
     }
 

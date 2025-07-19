@@ -1,0 +1,44 @@
+{
+  "_skillData": [
+    {
+      "_name": "낫",
+      "_skillType": 0,
+      "_spriteName": "Select 2",
+      "_skillData": [
+        { "_level": 1, "_effectValue": 3 },
+        { "_level": 2, "_effectValue": 6 },
+        { "_level": 3, "_effectValue": 10 }
+      ]
+    },
+    {
+      "_name": "데미지 업",
+      "_skillType": 1,
+      "_spriteName": "Select 9",
+      "_skillData": [
+        { "_level": 1, "_effectValue": 7 },
+        { "_level": 2, "_effectValue": 10 },
+        { "_level": 3, "_effectValue": 15 }
+      ]
+    },
+    {
+      "_name": "체력 증가",
+      "_skillType": 2,
+      "_spriteName": "Select 8",
+      "_skillData": [
+        { "_level": 1, "_effectValue": 120 },
+        { "_level": 2, "_effectValue": 140 },
+        { "_level": 3, "_effectValue": 160 }
+      ]
+    },
+    {
+      "_name": "산탄 증가",
+      "_skillType": 3,
+      "_spriteName": "Select 5",
+      "_skillData": [
+        { "_level": 1, "_effectValue": 2 },
+        { "_level": 2, "_effectValue": 3 },
+        { "_level": 3, "_effectValue": 5 }
+      ]
+    }
+  ]
+}

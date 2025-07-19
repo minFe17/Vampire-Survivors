@@ -14,7 +14,7 @@ public class ExpManager
     public void CreateExp(Vector3 pos)
     {
         int randomExp = Random.Range(0, (int)EExpType.Max);
-        GameObject temp = MonoSingleton<ObjectPoolManager>.Instance.Push((EExpType)randomExp);
+        GameObject temp = MonoSingleton<ObjectPoolManager>.Instance.Pull((EExpType)randomExp);
         temp.transform.position = pos;
         _currentExpList.Add(temp.GetComponent<Exp>());
     }
@@ -34,5 +34,15 @@ public class ExpManager
         _exp -= _needExp;
         _needExp = _needExp * 2;
         SimpleSingleton<MediatorManager>.Instance.Notify(EMediatorType.GetExp, _exp);
+        SimpleSingleton<MediatorManager>.Instance.Notify(EMediatorType.LevelUp);
+    }
+
+    public void EndGame()
+    {
+        for(int i=0; i<_currentExpList.Count; i++)
+            MonoSingleton<ObjectPoolManager>.Instance.Push(_currentExpList[i].ExpType, _currentExpList[i].gameObject);
+        _currentExpList.Clear();
+        _exp = 0;
+        _needExp = 100;
     }
 }

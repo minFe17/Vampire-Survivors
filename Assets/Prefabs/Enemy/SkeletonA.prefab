@@ -126,8 +126,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enemyType: 2
-  _maxHp: 20
-  _damage: 5
+  _maxHp: 10
+  _damage: 3
   _speed: 3
 --- !u!50 &4170082307216070215
 Rigidbody2D:

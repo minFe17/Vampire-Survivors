@@ -6,5 +6,11 @@ public enum EMediatorType
     KillEnemy,
     GetExp,
     GameEnd,
+    CreateSickle,
+    GetMagnet,
+    LevelUp,
+    UpgradeBullet,
+    UpgradeHp,
+    UpgradeBulletCount,
     Max
 }

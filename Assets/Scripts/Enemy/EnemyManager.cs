@@ -10,7 +10,8 @@ public class EnemyManager : IMediatorEvent
 
     int _minCount = 2;
     int _maxCount = 5;
-    int _killEnemyCount;
+    int _killCount;
+    int _targetKillCount = 300;
 
     public void Init(List<Transform> spawnPosition)
     {
@@ -25,7 +26,7 @@ public class EnemyManager : IMediatorEvent
         for (int i = 0; i < randomSpawnCount; i++)
         {
             int randomEnemyType = Random.Range(0, (int)EEnemyType.Max);
-            GameObject temp = MonoSingleton<ObjectPoolManager>.Instance.Push((EEnemyType)randomEnemyType);
+            GameObject temp = MonoSingleton<ObjectPoolManager>.Instance.Pull((EEnemyType)randomEnemyType);
             temp.transform.position = _spawnPosition[randomPosIndex].position;
             _currentEnemy.Add(temp);
         }
@@ -50,9 +51,19 @@ public class EnemyManager : IMediatorEvent
 
     public void KillEnemy(Enemy enemy)
     {
-        _killEnemyCount++;
+        _killCount++;
         _currentEnemy.Remove(enemy.gameObject);
-        SimpleSingleton<MediatorManager>.Instance.Notify(EMediatorType.KillEnemy, _killEnemyCount);
+        SimpleSingleton<MediatorManager>.Instance.Notify(EMediatorType.KillEnemy, _killCount);
+        if(_targetKillCount <= _killCount)
+            SimpleSingleton<MediatorManager>.Instance.Notify(EMediatorType.GameEnd, "CLEAR!");
+    }
+
+    public void EndGame()
+    {
+        for (int i = 0; i < _currentEnemy.Count; i++)
+            MonoSingleton<ObjectPoolManager>.Instance.Push(_currentEnemy[i].GetComponent<Enemy>().EnemyType, _currentEnemy[i]);
+        _currentEnemy.Clear();
+        _killCount = 0;
     }
 
     public void HandleEvent(object data = null)

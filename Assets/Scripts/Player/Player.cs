@@ -1,19 +1,20 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Utils;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IMediatorEvent
 {
     [SerializeField] int _maxHp;
     [SerializeField] float _speed;
 
+    CurrentBulletCount _bulletCount = new CurrentBulletCount();
     SpriteRenderer _spriteRenderer;
     Animator _animator;
     Vector2 _movePos;
 
     int _currentHp;
+    int _currentBulletCount = 1;
 
     public Vector2 MovePos { get => _movePos; }
 
@@ -23,8 +24,10 @@ public class Player : MonoBehaviour
         _currentHp = _maxHp;
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
+        _bulletCount.Init(this);
 
         SimpleSingleton<GameManager>.Instance.Player = this;
+        SimpleSingleton<MediatorManager>.Instance.Register(EMediatorType.UpgradeHp, this);
         StartCoroutine(AttackRoutine());
     }
 
@@ -49,14 +52,22 @@ public class Player : MonoBehaviour
 
     void Attack(Transform target)
     {
-        GameObject bullet = SimpleSingleton<PrefabManager>.Instance.GetPrefabLoad(EPrefabType.Bullet).GetPrefab();
-        GameObject temp = Instantiate(bullet);
+        Vector3 direction = (target.position - transform.position).normalized;
 
-        temp.transform.position = transform.position;
+        float spreadAngle = 15f;
+        int count = _currentBulletCount;
 
-        Vector3 direction = (target.position - temp.transform.position).normalized;
+        for (int i = 0; i < count; i++)
+        {
+            GameObject bullet = MonoSingleton<ObjectPoolManager>.Instance.Pull(EBulletType.Bullet);
+            bullet.transform.position = transform.position;
 
-        temp.transform.rotation = Quaternion.FromToRotation(Vector3.up, direction);
+            float angleOffset = (i - (count - 1) / 2f) * spreadAngle;
+            Quaternion rotation = Quaternion.AngleAxis(angleOffset, Vector3.forward);
+            Vector3 spreadDirection = rotation * direction;
+
+            bullet.transform.rotation = Quaternion.FromToRotation(Vector3.up, spreadDirection);
+        }
     }
 
     void Die()
@@ -72,6 +83,17 @@ public class Player : MonoBehaviour
             Die();
     }
 
+    public void AddHp(int value)
+    {
+        _currentHp += value;
+        SimpleSingleton<MediatorManager>.Instance.Notify(EMediatorType.TakeDamagePlayer, (float)_currentHp / _maxHp);
+    }
+
+    public void SetBulletCOunt(int bulletCOunt)
+    {
+        _currentBulletCount = bulletCOunt;
+    }
+
     #region Unity InputSystem
     void OnMove(InputValue value)
     {
@@ -84,6 +106,11 @@ public class Player : MonoBehaviour
             Turn();
     }
     #endregion
+
+    void IMediatorEvent.HandleEvent(object data)
+    {
+        _maxHp = (int)data;
+    }
 
     #region Coroutine
     IEnumerator AttackRoutine()

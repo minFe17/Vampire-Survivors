@@ -6,5 +6,6 @@ public class GameStart : MonoBehaviour
     void Start()
     {
         MonoSingleton<TimeManager>.Instance.Init();
+        SimpleSingleton<ReadData>.Instance.ReadSkillData();
     }
 }
